@@ -51,7 +51,7 @@ export const Catalogo = () => {
     setError(null);
 
     try {
-      const response = await httpClient.get<Country[]>('https://restcountries.com/v3.1/all');
+      const response = await httpClient.get<Country[]>('https://restcountries.com/v3.1/all?fields=name,region,capital,population,flags,languages,currencies,cca2,cca3');
       const data = 'data' in response ? response.data : response;
       setCountries(data);
       setIsLoading(false);

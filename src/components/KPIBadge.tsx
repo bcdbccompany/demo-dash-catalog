@@ -29,9 +29,9 @@ export const KPIBadge = ({
   }
 
   const variantStyles = {
-    neutral: 'border-border bg-card',
-    positive: 'border-success/20 bg-success/5 text-success-foreground',
-    negative: 'border-destructive/20 bg-destructive/5 text-destructive-foreground',
+    neutral: 'border-border bg-card text-foreground',
+    positive: 'border-border bg-card text-foreground',
+    negative: 'border-border bg-card text-foreground',
   };
 
   return (
