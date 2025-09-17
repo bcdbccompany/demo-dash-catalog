@@ -1,4 +1,31 @@
-# Welcome to your Lovable project
+# App Demo - Sistema de Testes
+
+Este é um aplicativo demo desenvolvido para exercitar testes de componentes e fluxos, incluindo login, listagens, gráficos, formulários e filtros.
+
+## 🧪 Testes
+
+### Testes Unitários (Vitest + React Testing Library)
+
+```bash
+# Executar todos os testes unitários com cobertura
+npm run test
+
+# Modo watch (desenvolvimento) 
+npm run test:watch
+
+# Interface gráfica do Vitest
+npm run test:ui
+```
+
+### Testes E2E (Playwright)
+
+```bash
+# Executar testes E2E em modo headless
+npm run test:e2e
+
+# Modo debug com interface gráfica  
+npm run test:e2e:open
+```
 
 ## Project info
 

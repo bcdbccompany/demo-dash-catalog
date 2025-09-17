@@ -1,0 +1,127 @@
+[
+  {
+    "name": {
+      "common": "Brazil",
+      "official": "Federative Republic of Brazil"
+    },
+    "region": "Americas",
+    "capital": ["Brasília"],
+    "population": 215313498,
+    "flags": {
+      "png": "https://flagcdn.com/w320/br.png",
+      "svg": "https://flagcdn.com/br.svg",
+      "alt": "The flag of Brazil has a green field with a large yellow rhombus in the center."
+    },
+    "languages": {
+      "por": "Portuguese"
+    },
+    "currencies": {
+      "BRL": {
+        "name": "Brazilian real",
+        "symbol": "R$"
+      }
+    },
+    "cca2": "BR",
+    "cca3": "BRA"
+  },
+  {
+    "name": {
+      "common": "Argentina",
+      "official": "Argentine Republic"
+    },
+    "region": "Americas",
+    "capital": ["Buenos Aires"],
+    "population": 45195777,
+    "flags": {
+      "png": "https://flagcdn.com/w320/ar.png",
+      "svg": "https://flagcdn.com/ar.svg",
+      "alt": "The flag of Argentina features three equal horizontal bands of light blue, white and light blue."
+    },
+    "languages": {
+      "spa": "Spanish"
+    },
+    "currencies": {
+      "ARS": {
+        "name": "Argentine peso",
+        "symbol": "$"
+      }
+    },
+    "cca2": "AR",
+    "cca3": "ARG"
+  },
+  {
+    "name": {
+      "common": "Germany",
+      "official": "Federal Republic of Germany"
+    },
+    "region": "Europe",
+    "capital": ["Berlin"],
+    "population": 83240525,
+    "flags": {
+      "png": "https://flagcdn.com/w320/de.png",
+      "svg": "https://flagcdn.com/de.svg",
+      "alt": "The flag of Germany is composed of three equal horizontal bands of black, red and gold."
+    },
+    "languages": {
+      "deu": "German"
+    },
+    "currencies": {
+      "EUR": {
+        "name": "Euro",
+        "symbol": "€"
+      }
+    },
+    "cca2": "DE",
+    "cca3": "DEU"
+  },
+  {
+    "name": {
+      "common": "France",
+      "official": "French Republic"
+    },
+    "region": "Europe",
+    "capital": ["Paris"],
+    "population": 67391582,
+    "flags": {
+      "png": "https://flagcdn.com/w320/fr.png",
+      "svg": "https://flagcdn.com/fr.svg",
+      "alt": "The flag of France is composed of three equal vertical bands of blue, white and red."
+    },
+    "languages": {
+      "fra": "French"
+    },
+    "currencies": {
+      "EUR": {
+        "name": "Euro",
+        "symbol": "€"
+      }
+    },
+    "cca2": "FR",
+    "cca3": "FRA"
+  },
+  {
+    "name": {
+      "common": "Nigeria",
+      "official": "Federal Republic of Nigeria"
+    },
+    "region": "Africa",
+    "capital": ["Abuja"],
+    "population": 218541212,
+    "flags": {
+      "png": "https://flagcdn.com/w320/ng.png",
+      "svg": "https://flagcdn.com/ng.svg",
+      "alt": "The flag of Nigeria is composed of three equal vertical bands of green, white and green."
+    },
+    "languages": {
+      "eng": "English"
+    },
+    "currencies": {
+      "NGN": {
+        "name": "Nigerian naira",
+        "symbol": "₦"
+      }
+    },
+    "cca2": "NG",
+    "cca3": "NGA"
+  }
+]
