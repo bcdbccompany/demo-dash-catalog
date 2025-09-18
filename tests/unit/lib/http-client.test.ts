@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import axios from 'axios';
-import { httpClient, cachedRequest, clearCache } from '@/lib/http-client';
+let httpClient: any; let cachedRequest: any; let clearCache: any;
 
 // Mock axios using hoisted instance to avoid initialization order issues
 const { mockAxiosInstance } = vi.hoisted(() => {
@@ -22,10 +22,15 @@ vi.mock('axios', () => ({
 const mockedAxios = vi.mocked(axios);
 
 describe('HTTP Client', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks();
-    clearCache();
     localStorage.clear();
+    vi.resetModules();
+    const mod = await import('@/lib/http-client');
+    httpClient = mod.httpClient;
+    cachedRequest = mod.cachedRequest;
+    clearCache = mod.clearCache;
+    clearCache();
   });
 
   describe('Request Interceptor', () => {
