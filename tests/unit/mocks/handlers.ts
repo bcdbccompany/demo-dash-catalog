@@ -13,16 +13,16 @@ export const handlers = [
     // Different temperature data for different cities
     if (lat === '-22.91' && lon === '-43.17') {
       // Rio de Janeiro - slightly warmer
-      return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json({
+    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json({
         ...openMeteoData,
         hourly: {
           ...openMeteoData.hourly,
           temperature_2m: openMeteoData.hourly.temperature_2m.map(temp => temp + 2)
         }
-      })), 50));
+      })), 100));
     }
     
-    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(openMeteoData)), 50));
+    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(openMeteoData)), 100));
   }),
 
   // REST Countries API
@@ -30,11 +30,7 @@ export const handlers = [
     const url = new URL(request.url);
     const fields = url.searchParams.get('fields');
     
-    if (fields) {
-      return HttpResponse.json(restCountriesData);
-    }
-    
-    return HttpResponse.json(restCountriesData);
+    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(restCountriesData)), 100));
   }),
 
   // JSONPlaceholder API
@@ -42,11 +38,8 @@ export const handlers = [
     const url = new URL(request.url);
     const limit = url.searchParams.get('_limit');
     
-    if (limit) {
-      return HttpResponse.json(postsData.posts.slice(0, parseInt(limit)));
-    }
-    
-    return HttpResponse.json(postsData.posts);
+    const posts = limit ? postsData.posts.slice(0, parseInt(limit)) : postsData.posts;
+    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(posts)), 100));
   }),
 
   http.get('https://jsonplaceholder.typicode.com/posts/:id', ({ params }) => {
@@ -68,7 +61,7 @@ export const handlers = [
   }),
 
   http.get('https://jsonplaceholder.typicode.com/users', () => {
-    return HttpResponse.json(postsData.users);
+    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(postsData.users)), 100));
   }),
 
   http.post('https://jsonplaceholder.typicode.com/posts', async ({ request }) => {

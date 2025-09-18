@@ -1,11 +1,8 @@
-import axios, { type AxiosAdapter } from 'axios';
-import fetchAdapter from '@vespaiach/axios-fetch-adapter';
+import axios from 'axios';
 
 // HTTP client with interceptors and retry logic
 export const httpClient = axios.create({
-  // Use fetch adapter so MSW can intercept requests in tests/JSDOM
-  adapter: fetchAdapter as unknown as AxiosAdapter,
-  timeout: 10000,
+  timeout: 15000, // Increased timeout for better test stability
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',

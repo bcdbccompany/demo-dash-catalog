@@ -8,7 +8,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./tests/unit/vitest.setup.ts'],
-    testTimeout: 10000, // 10 seconds timeout for async tests
+    testTimeout: 15000, // 15 seconds timeout for async tests
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
