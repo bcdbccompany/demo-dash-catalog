@@ -1,7 +1,14 @@
 import axios from 'axios';
 
 // HTTP client with interceptors and retry logic
+// Ensure MSW intercepts requests in tests by forcing Axios "http" adapter under Vitest
+const isVitest = typeof globalThis !== 'undefined' && !!(globalThis as any).process?.env?.VITEST;
+const isTestEnv = isVitest || (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.NODE_ENV === 'test');
+const adapter = isTestEnv ? ('http' as const) : ('fetch' as const);
+
 export const httpClient = axios.create({
+  // Use Node http adapter in tests (MSW/node intercepts), fetch adapter in browser
+  adapter: adapter as any,
   timeout: 15000, // Increased timeout for better test stability
   headers: {
     'Accept': 'application/json',
