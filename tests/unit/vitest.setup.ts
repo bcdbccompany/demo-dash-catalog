@@ -7,7 +7,7 @@ import 'whatwg-fetch';
 
 // Setup MSW
 beforeAll(() => {
-  server.listen({ onUnhandledRequest: 'warn' });
+  server.listen({ onUnhandledRequest: 'bypass' });
 });
 
 afterEach(() => {

@@ -116,10 +116,17 @@ describe('Dashboard', () => {
     });
 
     const refreshButton = screen.getByTestId('dash-refresh');
+    
+    // Check that button is initially enabled
+    expect(refreshButton).toBeEnabled();
+    
+    // Click the button
     await user.click(refreshButton);
 
     // Button should be disabled during loading
-    expect(refreshButton).toBeDisabled();
+    await waitFor(() => {
+      expect(refreshButton).toHaveAttribute('disabled');
+    });
   });
 
   it('renders detailed data table', async () => {

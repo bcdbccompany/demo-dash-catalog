@@ -427,7 +427,7 @@ export const Posts = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between" data-testid="posts-pagination">
             <p className="text-sm text-muted-foreground">
               Página {currentPage} de {totalPages}
             </p>

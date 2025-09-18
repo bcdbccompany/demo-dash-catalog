@@ -3,15 +3,17 @@ import axios from 'axios';
 import { httpClient, cachedRequest, clearCache } from '@/lib/http-client';
 
 // Mock axios
+const mockAxiosInstance = {
+  interceptors: {
+    request: { use: vi.fn() },
+    response: { use: vi.fn() }
+  },
+  request: vi.fn()
+};
+
 vi.mock('axios', () => ({
   default: {
-    create: vi.fn(() => ({
-      interceptors: {
-        request: { use: vi.fn(), handlers: [{ fulfilled: vi.fn((config) => config) }] },
-        response: { use: vi.fn(), handlers: [{ fulfilled: vi.fn((response) => response), rejected: vi.fn() }] }
-      },
-      request: vi.fn()
-    }))
+    create: vi.fn(() => mockAxiosInstance)
   }
 }));
 
@@ -29,18 +31,21 @@ describe('HTTP Client', () => {
       localStorage.setItem('auth', 'demo-token');
       
       const config = { headers: {} };
-      const interceptor = httpClient.interceptors.request.handlers[0];
+      // Get the interceptor function that was registered
+      const interceptorCalls = mockAxiosInstance.interceptors.request.use.mock.calls;
+      const requestInterceptor = interceptorCalls[0][0]; // First call, first argument (fulfilled function)
       
-      const result = (interceptor as any).fulfilled(config);
+      const result = requestInterceptor(config);
       
       expect(result.headers.Authorization).toBe('Bearer demo-token');
     });
 
     it('does not add auth header when no token', () => {
       const config = { headers: {} };
-      const interceptor = httpClient.interceptors.request.handlers[0];
+      const interceptorCalls = mockAxiosInstance.interceptors.request.use.mock.calls;
+      const requestInterceptor = interceptorCalls[0][0];
       
-      const result = (interceptor as any).fulfilled(config);
+      const result = requestInterceptor(config);
       
       expect(result.headers.Authorization).toBeUndefined();
     });
@@ -49,9 +54,10 @@ describe('HTTP Client', () => {
   describe('Response Interceptor', () => {
     it('returns response on success', async () => {
       const response = { data: { test: 'data' }, status: 200 };
-      const interceptor = httpClient.interceptors.response.handlers[0];
+      const interceptorCalls = mockAxiosInstance.interceptors.response.use.mock.calls;
+      const responseInterceptor = interceptorCalls[0][0]; // Success interceptor
       
-      const result = (interceptor as any).fulfilled(response);
+      const result = responseInterceptor(response);
       
       expect(result).toBe(response);
     });
@@ -62,25 +68,26 @@ describe('HTTP Client', () => {
         config: {}
       };
       
-      const interceptor = httpClient.interceptors.response.handlers[0];
+      const interceptorCalls = mockAxiosInstance.interceptors.response.use.mock.calls;
+      const errorInterceptor = interceptorCalls[0][1]; // Error interceptor
       
-      await expect((interceptor as any).rejected(error)).rejects.toBe(error);
+      await expect(errorInterceptor(error)).rejects.toBe(error);
     });
 
     it('retries once on 5xx errors', async () => {
-      const mockRequest = vi.fn().mockResolvedValue({ data: 'success' });
-      httpClient.request = mockRequest;
+      mockAxiosInstance.request.mockResolvedValue({ data: 'success' });
       
       const error = {
         response: { status: 500 },
         config: { _retry: false }
       };
       
-      const interceptor = httpClient.interceptors.response.handlers[0];
+      const interceptorCalls = mockAxiosInstance.interceptors.response.use.mock.calls;
+      const errorInterceptor = interceptorCalls[0][1];
       
-      await (interceptor as any).rejected(error);
+      await errorInterceptor(error);
       
-      expect(mockRequest).toHaveBeenCalledWith(
+      expect(mockAxiosInstance.request).toHaveBeenCalledWith(
         expect.objectContaining({ _retry: true })
       );
     });
@@ -91,9 +98,10 @@ describe('HTTP Client', () => {
         config: { _retry: true }
       };
       
-      const interceptor = httpClient.interceptors.response.handlers[0];
+      const interceptorCalls = mockAxiosInstance.interceptors.response.use.mock.calls;
+      const errorInterceptor = interceptorCalls[0][1];
       
-      await expect((interceptor as any).rejected(error)).rejects.toBe(error);
+      await expect(errorInterceptor(error)).rejects.toBe(error);
     });
   });
 
