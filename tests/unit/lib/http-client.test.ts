@@ -3,7 +3,18 @@ import axios from 'axios';
 import { httpClient, cachedRequest, clearCache } from '@/lib/http-client';
 
 // Mock axios
-vi.mock('axios');
+vi.mock('axios', () => ({
+  default: {
+    create: vi.fn(() => ({
+      interceptors: {
+        request: { use: vi.fn(), handlers: [{ fulfilled: vi.fn((config) => config) }] },
+        response: { use: vi.fn(), handlers: [{ fulfilled: vi.fn((response) => response), rejected: vi.fn() }] }
+      },
+      request: vi.fn()
+    }))
+  }
+}));
+
 const mockedAxios = vi.mocked(axios);
 
 describe('HTTP Client', () => {

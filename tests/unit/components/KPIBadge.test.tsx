@@ -46,7 +46,7 @@ describe('KPIBadge', () => {
   });
 
   it('shows loading state with skeleton', () => {
-    render(
+    const { container } = render(
       <KPIBadge 
         label="Temperature" 
         value="25.5" 
@@ -59,7 +59,7 @@ describe('KPIBadge', () => {
     expect(screen.queryByText('25.5')).not.toBeInTheDocument();
     
     // Check for skeleton elements
-    const skeletons = screen.container.querySelectorAll('.animate-skeleton');
+    const skeletons = container.querySelectorAll('.animate-skeleton');
     expect(skeletons).toHaveLength(2);
   });
 

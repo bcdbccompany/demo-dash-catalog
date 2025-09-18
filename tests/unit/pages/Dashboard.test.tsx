@@ -40,10 +40,10 @@ describe('Dashboard', () => {
   });
 
   it('shows loading state initially', () => {
-    renderWithRouter(<Dashboard />);
+    const { container } = renderWithRouter(<Dashboard />);
 
     // Check for skeleton loading in KPIs
-    const skeletons = screen.container.querySelectorAll('.animate-skeleton');
+    const skeletons = container.querySelectorAll('.animate-skeleton');
     expect(skeletons.length).toBeGreaterThan(0);
   });
 
@@ -118,8 +118,8 @@ describe('Dashboard', () => {
     const refreshButton = screen.getByTestId('dash-refresh');
     await user.click(refreshButton);
 
-    // Button should show loading state briefly
-    expect(refreshButton).toHaveClass('disabled');
+    // Button should be disabled during loading
+    expect(refreshButton).toBeDisabled();
   });
 
   it('renders detailed data table', async () => {

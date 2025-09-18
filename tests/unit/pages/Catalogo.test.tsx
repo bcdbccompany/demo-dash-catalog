@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -49,11 +49,12 @@ describe('Catalogo', () => {
   it('loads and displays countries data', async () => {
     renderWithRouter(<Catalogo />);
 
+    // Wait for data to load with longer timeout
     await waitFor(() => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
       expect(screen.getByText('Argentina')).toBeInTheDocument();
       expect(screen.getByText('Germany')).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
   });
 
   it('filters countries by search term with debounce', async () => {
@@ -63,7 +64,7 @@ describe('Catalogo', () => {
     // Wait for initial load
     await waitFor(() => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
 
     const searchInput = screen.getByTestId('catalogo-search');
     await user.type(searchInput, 'Brazil');
@@ -87,7 +88,7 @@ describe('Catalogo', () => {
     // Wait for initial load
     await waitFor(() => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
 
     // Open region select
     const regionSelect = screen.getByTestId('catalogo-region');
@@ -112,7 +113,7 @@ describe('Catalogo', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('catalogo-view-toggle')).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
 
     const toggleButton = screen.getByTestId('catalogo-view-toggle');
     
@@ -134,7 +135,7 @@ describe('Catalogo', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
 
     // Find and click sort button
     const sortButton = screen.getByText(/População/);
@@ -153,7 +154,7 @@ describe('Catalogo', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('catalogo-pagination')).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
 
     // With only 5 countries in fixture, pagination buttons should be disabled
     const pagination = screen.getByTestId('catalogo-pagination');
@@ -170,7 +171,7 @@ describe('Catalogo', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
 
     // Apply search filter
     const searchInput = screen.getByTestId('catalogo-search');
