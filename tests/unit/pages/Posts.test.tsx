@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { Posts } from '@/pages/Posts';
@@ -101,11 +101,9 @@ describe('Posts', () => {
     const authorSelect = screen.getByTestId('post-author');
     await user.click(authorSelect);
     
-    await waitFor(() => {
-      expect(screen.getByText('Leanne Graham')).toBeInTheDocument();
-    });
-    
-    await user.click(screen.getByText('Leanne Graham'));
+    // Click option within the opened listbox to avoid duplicates in page
+    const listbox = await screen.findByRole('listbox');
+    await user.click(within(listbox).getByRole('option', { name: 'Leanne Graham' }));
 
     // Submit form
     const submitButton = screen.getByTestId('post-submit');

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { Dashboard } from '@/pages/Dashboard';
@@ -94,12 +94,9 @@ describe('Dashboard', () => {
     const citySelect = screen.getByTestId('dash-city');
     await user.click(citySelect);
     
-    // Wait for select options to appear
-    await waitFor(() => {
-      expect(screen.getByText('Rio de Janeiro')).toBeInTheDocument();
-    });
-    
-    await user.click(screen.getByText('Rio de Janeiro'));
+    // Choose option within the listbox
+    const listbox = await screen.findByRole('listbox');
+    await user.click(within(listbox).getByRole('option', { name: 'Rio de Janeiro' }));
 
     // Verify title updates
     await waitFor(() => {
@@ -123,16 +120,14 @@ describe('Dashboard', () => {
     // Click the button
     await user.click(refreshButton);
 
-    // Icon should spin during loading
+    // Button should be disabled during loading
     await waitFor(() => {
-      const icon = refreshButton.querySelector('svg');
-      expect(icon).toHaveClass('animate-spin');
+      expect(refreshButton).toBeDisabled();
     });
 
-    // And eventually stop spinning
+    // And eventually re-enable
     await waitFor(() => {
-      const icon = refreshButton.querySelector('svg');
-      expect(icon).not.toHaveClass('animate-spin');
+      expect(refreshButton).toBeEnabled();
     });
   });
 
