@@ -118,8 +118,8 @@ export const Dashboard = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <Select value={selectedCity.name} onValueChange={handleCityChange} data-testid="dash-city">
-              <SelectTrigger className="w-48">
+            <Select value={selectedCity.name} onValueChange={handleCityChange}>
+              <SelectTrigger className="w-48" data-testid="dash-city">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

@@ -65,7 +65,11 @@ describe('Posts', () => {
   });
 
   it('renders post form', async () => {
+    const user = userEvent.setup();
     renderWithRouter(<Posts />);
+
+    // Open the form dialog first
+    await user.click(screen.getByRole('button', { name: /novo post/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId('post-form')).toBeInTheDocument();
@@ -80,6 +84,9 @@ describe('Posts', () => {
   it('creates new post', async () => {
     const user = userEvent.setup();
     renderWithRouter(<Posts />);
+
+    // Open the form dialog first
+    await user.click(screen.getByRole('button', { name: /novo post/i }));
 
     // Wait for form to load
     await waitFor(() => {

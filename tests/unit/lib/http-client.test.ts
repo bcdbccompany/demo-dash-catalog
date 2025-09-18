@@ -2,14 +2,16 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import axios from 'axios';
 import { httpClient, cachedRequest, clearCache } from '@/lib/http-client';
 
-// Mock axios
-const mockAxiosInstance = {
-  interceptors: {
+// Mock axios using hoisted instance to avoid initialization order issues
+const { mockAxiosInstance } = vi.hoisted(() => {
+  const fn: any = vi.fn((config: any) => fn.request(config));
+  fn.interceptors = {
     request: { use: vi.fn() },
     response: { use: vi.fn() }
-  },
-  request: vi.fn()
-};
+  };
+  fn.request = vi.fn();
+  return { mockAxiosInstance: fn };
+});
 
 vi.mock('axios', () => ({
   default: {

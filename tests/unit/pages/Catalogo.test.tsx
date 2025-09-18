@@ -19,14 +19,10 @@ beforeEach(() => {
     login: vi.fn(),
     logout: vi.fn(),
   });
-  
-  // Mock timers for debounce testing
-  vi.useFakeTimers();
 });
 
 afterEach(() => {
-  vi.runOnlyPendingTimers();
-  vi.useRealTimers();
+  // no global fake timers here to avoid axios timing issues
 });
 
 const renderWithRouter = (component: React.ReactElement) => {
@@ -58,6 +54,7 @@ describe('Catalogo', () => {
   });
 
   it('filters countries by search term with debounce', async () => {
+    vi.useFakeTimers();
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     renderWithRouter(<Catalogo />);
 
@@ -79,6 +76,9 @@ describe('Catalogo', () => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
       expect(screen.queryByText('Argentina')).not.toBeInTheDocument();
     });
+
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
   });
 
   it('filters countries by region', async () => {

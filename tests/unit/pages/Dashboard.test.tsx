@@ -123,9 +123,16 @@ describe('Dashboard', () => {
     // Click the button
     await user.click(refreshButton);
 
-    // Button should be disabled during loading
+    // Icon should spin during loading
     await waitFor(() => {
-      expect(refreshButton).toHaveAttribute('disabled');
+      const icon = refreshButton.querySelector('svg');
+      expect(icon).toHaveClass('animate-spin');
+    });
+
+    // And eventually stop spinning
+    await waitFor(() => {
+      const icon = refreshButton.querySelector('svg');
+      expect(icon).not.toHaveClass('animate-spin');
     });
   });
 

@@ -37,11 +37,18 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-// Mock localStorage
+// Mock localStorage with in-memory store
+const store = new Map<string, string>();
 const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
+  getItem: vi.fn((key: string) => (store.has(key) ? store.get(key)! : null)),
+  setItem: vi.fn((key: string, value: string) => {
+    store.set(key, String(value));
+  }),
+  removeItem: vi.fn((key: string) => {
+    store.delete(key);
+  }),
+  clear: vi.fn(() => {
+    store.clear();
+  }),
 };
 vi.stubGlobal('localStorage', localStorageMock);

@@ -13,16 +13,16 @@ export const handlers = [
     // Different temperature data for different cities
     if (lat === '-22.91' && lon === '-43.17') {
       // Rio de Janeiro - slightly warmer
-      return HttpResponse.json({
+      return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json({
         ...openMeteoData,
         hourly: {
           ...openMeteoData.hourly,
           temperature_2m: openMeteoData.hourly.temperature_2m.map(temp => temp + 2)
         }
-      });
+      })), 50));
     }
     
-    return HttpResponse.json(openMeteoData);
+    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(openMeteoData)), 50));
   }),
 
   // REST Countries API

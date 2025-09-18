@@ -187,8 +187,8 @@ export const Catalogo = () => {
 
               <div className="md:w-48">
                 <Label>Região</Label>
-                <Select value={selectedRegion} onValueChange={handleRegionChange} data-testid="catalogo-region">
-                  <SelectTrigger>
+                <Select value={selectedRegion} onValueChange={handleRegionChange}>
+                  <SelectTrigger data-testid="catalogo-region">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

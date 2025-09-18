@@ -316,9 +316,8 @@ export const Posts = () => {
                   <Select 
                     value={formData.userId} 
                     onValueChange={(value) => setFormData({ ...formData, userId: value })}
-                    data-testid="post-author"
                   >
-                    <SelectTrigger>
+                    <SelectTrigger data-testid="post-author">
                       <SelectValue placeholder={isUsersLoading ? "Carregando..." : "Selecione um autor"} />
                     </SelectTrigger>
                     <SelectContent>
