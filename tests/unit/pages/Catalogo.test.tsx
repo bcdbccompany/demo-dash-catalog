@@ -54,14 +54,16 @@ describe('Catalogo', () => {
   });
 
   it('filters countries by search term with debounce', async () => {
-    vi.useFakeTimers();
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     renderWithRouter(<Catalogo />);
 
-    // Wait for initial load
+    // Wait for initial load (real timers)
     await waitFor(() => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
     }, { timeout: 10000 });
+
+    // Use fake timers only for debounce period
+    vi.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
     const searchInput = screen.getByTestId('catalogo-search');
     await user.type(searchInput, 'Brazil');
@@ -77,7 +79,6 @@ describe('Catalogo', () => {
       expect(screen.queryByText('Argentina')).not.toBeInTheDocument();
     });
 
-    vi.runOnlyPendingTimers();
     vi.useRealTimers();
   });
 
@@ -172,12 +173,15 @@ describe('Catalogo', () => {
   });
 
   it('clears filters when clear button is clicked', async () => {
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     renderWithRouter(<Catalogo />);
 
     await waitFor(() => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
     }, { timeout: 10000 });
+
+    // Use fake timers just for the debounce
+    vi.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
     // Apply search filter
     const searchInput = screen.getByTestId('catalogo-search');
@@ -196,5 +200,7 @@ describe('Catalogo', () => {
       expect(screen.getByText('Brazil')).toBeInTheDocument();
       expect(searchInput).toHaveValue('');
     });
+
+    vi.useRealTimers();
   });
 });

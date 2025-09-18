@@ -13,16 +13,16 @@ export const handlers = [
     // Different temperature data for different cities
     if (lat === '-22.91' && lon === '-43.17') {
       // Rio de Janeiro - slightly warmer
-    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json({
+      return HttpResponse.json({
         ...openMeteoData,
         hourly: {
           ...openMeteoData.hourly,
-          temperature_2m: openMeteoData.hourly.temperature_2m.map(temp => temp + 2)
-        }
-      })), 100));
+          temperature_2m: openMeteoData.hourly.temperature_2m.map((temp) => temp + 2),
+        },
+      });
     }
-    
-    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(openMeteoData)), 100));
+
+    return HttpResponse.json(openMeteoData);
   }),
 
   // REST Countries API
@@ -30,7 +30,7 @@ export const handlers = [
     const url = new URL(request.url);
     const fields = url.searchParams.get('fields');
     
-    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(restCountriesData)), 100));
+    return HttpResponse.json(restCountriesData);
   }),
 
   // JSONPlaceholder API
@@ -39,7 +39,7 @@ export const handlers = [
     const limit = url.searchParams.get('_limit');
     
     const posts = limit ? postsData.posts.slice(0, parseInt(limit)) : postsData.posts;
-    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(posts)), 100));
+    return HttpResponse.json(posts);
   }),
 
   http.get('https://jsonplaceholder.typicode.com/posts/:id', ({ params }) => {
@@ -61,7 +61,7 @@ export const handlers = [
   }),
 
   http.get('https://jsonplaceholder.typicode.com/users', () => {
-    return new Promise((resolve) => setTimeout(() => resolve(HttpResponse.json(postsData.users)), 100));
+    return HttpResponse.json(postsData.users);
   }),
 
   http.post('https://jsonplaceholder.typicode.com/posts', async ({ request }) => {

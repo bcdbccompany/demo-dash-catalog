@@ -102,8 +102,8 @@ describe('Posts', () => {
     await user.click(authorSelect);
     
     // Click option within the opened listbox to avoid duplicates in page
-    const listbox = await screen.findByRole('listbox');
-    await user.click(within(listbox).getByRole('option', { name: 'Leanne Graham' }));
+    const option = await screen.findByRole('option', { name: 'Leanne Graham' });
+    await user.click(option);
 
     // Submit form
     const submitButton = screen.getByTestId('post-submit');
